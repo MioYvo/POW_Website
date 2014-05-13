@@ -1,0 +1,13 @@
+body {
+  min-height: 2000px;
+  padding-top: 70px;
+  background: url('/static/ico/escheresque_ste_@2X.png');
+  background-repeat: repeat;
+}
+
+footer {
+	text-align: center;
+	padding-bottom: 2px;
+	/*background-color: #211f17; */
+	color: #C7C7C7
+}

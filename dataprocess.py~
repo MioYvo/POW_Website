@@ -1,0 +1,208 @@
+#-*- coding: utf-8 -*-
+import MySQLdb
+import time
+import os
+import re
+#conn = MySQLdb.connect(host="127.0.0.1",user="root",passwd="liurusi321",charset="utf8")
+#cursor = conn.cursor()
+#cursor.execute("use NuptPOW_DB1;")
+
+def POWprint(tabname, dbname):
+    conn = MySQLdb.connect(host="127.0.0.1", user="root", passwd="liurusi321", charset="utf8")
+    cursor = conn.cursor()
+    #数据显示模块，显示今日抓取到或者数据库所有的数据
+    #传入tabname,dbname
+    #tabname == localtime时，显示今日数据
+    #tabname == alltabname时，显示dbname中所有数据
+    if tabname == "localtime":
+        localtime = time.strftime('%Y_%m_%d', time.localtime())
+        cursor.execute("USE %s;" % dbname)
+        cursor.execute("SELECT * FROM %s ORDER BY last_rep_time DESC;" % localtime)
+        row = cursor.fetchall()
+        cursor.close()
+        conn.close()
+    elif tabname == "alltabname":
+        cursor.execute("USE %s;" % dbname)
+        cursor.execute("SHOW TABLES;")
+        row = cursor.fetchall()
+        cursor.close()
+        conn.close()
+    return row
+
+
+def search(data):
+    localtime = time.strftime('%Y_%m_%d', time.localtime())
+    conn = MySQLdb.connect(host="127.0.0.1", user="root", passwd="liurusi321", charset="utf8")
+    cursor = conn.cursor()
+    if data:
+        p = '%'
+        cursor.execute("use POWDATA;")
+        cursor.execute("SHOW TABLES;")
+        alltab = cursor.fetchall()
+        rows = []
+        for r in alltab:
+            if r[0] == "users":
+                pass
+            else:
+                cursor.execute("SELECT * FROM %s WHERE title like '%s%s%s';" % (r[0], p, data['search'], p))
+                d1 = cursor.fetchall()
+                d1 = list(d1)
+                #print d1
+                for d in d1:
+                    rows.append(d)
+        '''
+        cursor.execute("select * from %s where title like '%s%s%s';"%(localtime,p,data['search'],p))
+        row = cursor.fetchall()
+        '''
+        cursor.close()
+        conn.close()
+        return rows
+    else:
+        cursor.close()
+        conn.close()
+        return 'No data'
+
+
+def chartsprint():
+    conn = MySQLdb.connect(host="127.0.0.1", user="root", passwd="liurusi321", charset="utf8")
+    cursor = conn.cursor()
+    cursor.execute("use POWANA;")
+    cursor.execute("SHOW TABLES;")
+    alltab = cursor.fetchall()
+    filelist = []
+    t1 = []
+    d1 = {}
+    for a in range(len(alltab)):
+        #print '--------------------------------------------------------'
+        #print a
+        if not os.path.exists(r"/home/mio/Desktop/pow/static/charts/%s/" % alltab[a][0]):
+            #print "not exists"
+            pass
+        else:
+            #print "is exists"
+            filelist = os.listdir(r"/home/mio/Desktop/pow/static/charts/%s/png/" % alltab[a][0])
+            pngdir = '/static/charts/' + alltab[a][0] + '/png/' + filelist[0]
+            s = re.split(r'_', alltab[a][0])
+            #d1[alltab[a][0]] = pngdir
+            d1[s[1]] = pngdir
+    cursor.close()
+    conn.close()
+    return d1
+
+
+def heattxt():
+    conn = MySQLdb.connect(host="127.0.0.1", user="root", passwd="liurusi321", charset="utf8")
+    cursor = conn.cursor()
+    cursor.execute("use POWANA;")
+    cursor.execute("SHOW TABLES;")
+    alltab = cursor.fetchall()
+    filelist = []
+    d1 = {}
+    te1 = []
+    for a in range(len(alltab)):
+        print '--------------------------------------------------------'
+        print "/home/mio/Desktop/pow/static/charts/%s/" % alltab[a][0]
+        if not os.path.exists("/home/mio/Desktop/pow/static/charts/%s/" % alltab[a][0]):
+            print "not exists"
+        else:
+            print "is exists"
+            filelist = os.listdir(r"/home/mio/Desktop/pow/static/charts/%s/txt/" % alltab[a][0])
+            txtdir = '/home/mio/Desktop/pow/static/charts/' + alltab[a][0] + '/txt/' + filelist[0]
+            te1.append(alltab[a][0])
+            f = open("%s" % txtdir, 'r')
+            t = []
+            for ff in f:
+                t.append(ff.decode('utf-8'))
+            f.close()
+            s = re.split(r'_', alltab[a][0])
+            #d1[alltab[a][0]] = t
+            d1[s[1]] = t
+    print type(d1)
+    cursor.close()
+    conn.close()
+    return d1
+
+
+def checkin(user):
+    conn = MySQLdb.connect(host="127.0.0.1", user="root", passwd="liurusi321", charset="utf8")
+    cursor = conn.cursor()
+    cursor.execute("use POWDATA;")
+    cursor.execute("select * from users where user='%s';" % user)
+    rows = cursor.fetchall()
+    #r[0][0]:user  r[0][1]:password  r[0][2]:email
+    cursor.close()
+    conn.close()
+    return rows
+
+
+def ew_chartsprint():
+    conn = MySQLdb.connect(host="127.0.0.1", user="root", passwd="liurusi321", charset="utf8")
+    cursor = conn.cursor()
+    cursor.execute("use POWANA;")
+    cursor.execute("SHOW TABLES;")
+    alltab = cursor.fetchall()
+    filelist = []
+    t1 = []
+    d1 = {}
+    for a in range(len(alltab)):
+        #print '--------------------------------------------------------'
+        #print a
+        if not os.path.exists(r"/home/mio/Desktop/pow/static/ew/%s/" % alltab[a][0]):
+            pass
+            #print "not exists"
+        else:
+            #print "is exists"
+            filelist = os.listdir(r"/home/mio/Desktop/pow/static/ew/%s/png/" % alltab[a][0])
+            pngdir = '/static/ew/' + alltab[a][0] + '/png/' + filelist[0]
+            s = re.split(r'_', alltab[a][0])
+            #d1[alltab[a][0]] = pngdir
+            d1[s[1]] = pngdir
+    cursor.close()
+    conn.close()
+    return d1
+
+
+def ew_txt():
+    conn = MySQLdb.connect(host="127.0.0.1", user="root", passwd="liurusi321", charset="utf8")
+    cursor = conn.cursor()
+    cursor.execute("use POWANA;")
+    cursor.execute("SHOW TABLES;")
+    alltab = cursor.fetchall()
+    filelist = []
+    d1 = {}
+    te1 = []
+    for a in range(len(alltab)):
+        print '--------------------------------------------------------'
+        print "/home/mio/Desktop/pow/static/ew/%s/" % alltab[a][0]
+        if not os.path.exists("/home/mio/Desktop/pow/static/ew/%s/" % alltab[a][0]):
+            print "not exists"
+        else:
+            print "is exists"
+            filelist = os.listdir(r"/home/mio/Desktop/pow/static/ew/%s/txt/" % alltab[a][0])
+            txtdir = '/home/mio/Desktop/pow/static/ew/' + alltab[a][0] + '/txt/' + filelist[0]
+            te1.append(alltab[a][0])
+            f = open("%s" % txtdir, 'r')
+            t = []
+            for ff in f:
+                t.append(ff.decode('utf-8'))
+            f.close()
+            s = re.split(r'_', alltab[a][0])
+            #d1[alltab[a][0]] = t
+            d1[s[1]] = t
+    print type(d1)
+    cursor.close()
+    conn.close()
+    return d1
+
+
+def s_url(n):
+    s = []
+    for i in n:
+        s1 = re.split(r'_', i)
+        s.append("tieba.baidu.com/p/" + s1[1])
+    return s
+
+
+def test1(data):
+    l1 = list(data)
+    print data['search']

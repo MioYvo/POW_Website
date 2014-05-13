@@ -1,0 +1,127 @@
+$def with(user,s)
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="/static/ico/favicon.ico">
+
+    <title>NUPT與情预警</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/static/css/dashboard.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy this line! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">NUPT與情预警</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-left">
+            <li><a href="/early_warning">热点预警</a></li>
+            <li><a href="/heat">热点分析</a></li>
+            <li><a href="/dashborad">实时数据</a></li>
+            <li><a>&nbsp;</a></li>
+            <li><a href="/" target="_blank">关于</a></li>
+            <li><a href="http://www.renren.com/408842825/profile" target="_blank">联系我们</a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">其他链接 <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="http://www.njupt.edu.cn/" target="_blank">南京邮电大学主页</a></li>
+                <li><a href="http://jwc.njupt.edu.cn/" target="_blank">南京邮电大学教务处</a></li>
+                <li class="divider"></li>
+                <li class="dropdown-header">南邮社区</li>
+                <li><a href="http://tieba.baidu.com/f?kw=%C4%CF%BE%A9%D3%CA%B5%E7%B4%F3%D1%A7" target="_blank">百度贴吧 南京邮电大学吧</a></li>
+              </ul>
+            </li>
+            <li><a>&nbsp;</a></li>
+            <li><a>$user</a></li>
+            <li><a href="/logout">注销</a></li>
+          </ul>
+
+          <ul class="nav navbar-nav navbar-right">
+            <li><form class="navbar-form navbar-right" method="post">
+              <input name="search" type="text" class="form-control" placeholder="关键字搜索标题...">
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row">
+      </div>
+        <!--<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">-->
+        <div class="col-sm-offset-1 col-md-10 col-md-offset-1 ">
+
+          <h2 class="sub-header">搜索结果</h2>
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>最后回复时间</th>
+                  <th>标题</th>
+                  <th>作者</th>
+                  <th>回复数</th>
+                  <th>链接</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- python code -->
+            $for ss in range(len(s)):
+                <tr>
+                  <td>$(ss+1)</td>
+                  <td>$s[ss][9] $s[ss][6]</td>
+                  <td>$s[ss][1]</td>
+                  <td><a target="_blank" href="http://tieba.baidu.com$s[ss][8]">$s[ss][3]</a></td>
+                  <td>$s[ss][0]</td>
+                  <td><a target="_blank" href="http://tieba.baidu.com$s[ss][2]">原帖</a></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="mastfoot">
+            <div class="inner">
+              <p>NuptPOW search page <!--<a href="http://getbootstrap.com">Bootstrap</a>-->, Powered by <a href="http://www.renren.com/408842825/profile">@Mio</a>.</p>
+              <p>&copy; 2014 NUPT POW, Edu. &middot; <a href="http://www.njupt.edu.cn",target="_blank">Nanjing University of Posts and Telecommunications</a> &middot; <a href="http://bc.njupt.edu.cn/",target="_blank">School of Management</a></p>
+              <p>Copyright Nanjing University of Posts and Telecommunications, All Rights Reserved</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <!-- <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script> -->
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></staticcript>
+    <script src="/static/js/docs.min.js"></script>
+  </body>
+</html>
